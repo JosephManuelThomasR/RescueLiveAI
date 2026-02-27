@@ -1,0 +1,9 @@
+pathway
+fastapi
+uvicorn[standard]
+pydantic
+numpy
+scipy
+websockets
+python-dotenv
+sse-starlette

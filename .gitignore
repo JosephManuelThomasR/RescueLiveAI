@@ -1,0 +1,34 @@
+# Node / Next.js
+rescue_live_ai/ui/node_modules/
+rescue_live_ai/ui/.next/
+rescue_live_ai/ui/out/
+rescue_live_ai/ui/.vercel/
+rescue_live_ai/ui/.turbo/
+rescue_live_ai/ui/.pnpm-store/
+rescue_live_ai/ui/npm-debug.log*
+rescue_live_ai/ui/yarn-error.log*
+rescue_live_ai/ui/pnpm-debug.log*
+rescue_live_ai/ui/coverage/
+
+# Python
+**/.venv/
+**/venv/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+*.pyc
+
+# ESP-IDF / Firmware
+firmware/**/build/
+firmware/**/sdkconfig
+firmware/**/sdkconfig.old
+firmware/**/.vscode/
+firmware/**/.settings/
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+

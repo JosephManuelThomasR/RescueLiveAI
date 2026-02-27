@@ -1,1 +1,13 @@
-idf_component_register(SRCS "app_main.c" INCLUDE_DIRS ".")
+idf_component_register(
+    SRCS
+        "app_main.c"
+        "display.c"
+        "ui.c"
+    INCLUDE_DIRS
+        "."
+    REQUIRES
+        lvgl
+        esp_lcd
+        driver
+        esp_timer
+)

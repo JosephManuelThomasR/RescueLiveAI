@@ -137,31 +137,43 @@ export default function Page() {
     }
   }, [metrics, uiState]);
 
+  const battPct = useMemo(() => {
+    const v = metrics?.battery_voltage ?? 8.0;
+    const pct = Math.max(0, Math.min(100, Math.round(((v - 6.6) / (8.4 - 6.6)) * 100)));
+    return isFinite(pct) ? pct : 100;
+  }, [metrics]);
+
   return (
-    <div style={{ background: bgForState(uiState), color: "#cfe6d5", height: "100vh", fontFamily: "system-ui", display: "flex", flexDirection: "column" }}>
+    <div style={{ background: bgForState(uiState), color: "#cfe6d5", height: "100vh", display: "flex", flexDirection: "column" }}>
       <div style={{ padding: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ fontWeight: 700, letterSpacing: 0.5 }}>RescueLiveAI</div>
+          <div style={{ fontWeight: 800, letterSpacing: 0.6, fontSize: 18 }}>RescueLiveAI</div>
           <Badges />
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span className="pill" style={{ borderColor: "#0b7" }}>
+            {uiState.replaceAll("_", " ")}
+          </span>
+          <span className="pill" title="Battery">
+            🔋 {battPct}%
+          </span>
           <button onClick={setRapid}>Rapid</button>
           <button onClick={setDeep}>Deep</button>
           <button onClick={toggleSilent}>{metrics?.silent_mode ? "Unmute" : "Silent"}</button>
           <button onClick={shutdown}>Power</button>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, padding: 12, flex: 1 }}>
-        <div style={{ background: "linear-gradient(180deg, #0a0f12, #091318)", padding: 12, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(0,0,0,0.3)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, padding: 14, flex: 1 }}>
+        <div className="card" style={{ padding: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <ConfidenceRing value={(metrics?.confidence ?? 0) * 100} acc={(metrics?.acc_confidence ?? 0) * 100} color={ringColor} />
         </div>
-        <div style={{ background: "linear-gradient(180deg, #0a0f12, #091318)", padding: 12, borderRadius: 12 }}>
+        <div className="card" style={{ padding: 16 }}>
           <Waveform data={waveformBuf.current} />
         </div>
-        <div style={{ background: "linear-gradient(180deg, #0a0f12, #091318)", padding: 12, borderRadius: 12 }}>
+        <div className="card" style={{ padding: 16 }}>
           <HeatmapMini bins={32} values={metrics?.heatmap ?? []} />
         </div>
-        <div style={{ background: "linear-gradient(180deg, #0a0f12, #091318)", padding: 12, borderRadius: 12 }}>
+        <div className="card" style={{ padding: 16 }}>
           <AiPanel connected={connected} backendBase={backendBase.current} state={uiState} metrics={metrics} />
         </div>
       </div>

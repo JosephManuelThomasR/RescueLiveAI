@@ -1,0 +1,9 @@
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I", "UP", "B", "PL", "RUF"]
+ignore = []
+
+[isort]
+known-first-party = ["rescue_live_ai"]
+profile = "black"
+

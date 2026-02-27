@@ -11,13 +11,20 @@ export function ConfidenceRing({ value, acc, color }: { value: number; acc: numb
   const dashAcc = (pctAcc / 100) * c;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <circle cx={size / 2} cy={size / 2} r={r} stroke="#223" strokeWidth={stroke} fill="none" />
-      <circle cx={size / 2} cy={size / 2} r={r} stroke="#335" strokeWidth={stroke} fill="none" strokeDasharray={`${dashAcc} ${c - dashAcc}`} transform={`rotate(-90 ${size/2} ${size/2})`} />
-      <circle cx={size / 2} cy={size / 2} r={r} stroke={color} strokeWidth={stroke} fill="none" strokeDasharray={`${dash} ${c - dash}`} transform={`rotate(-90 ${size/2} ${size/2})`} />
-      <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="28" fill="#cfc">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#00d084" />
+          <stop offset="100%" stopColor={color} />
+        </linearGradient>
+      </defs>
+      <circle cx={size / 2} cy={size / 2} r={r} stroke="#1a2230" strokeWidth={stroke} fill="none" />
+      <circle cx={size / 2} cy={size / 2} r={r} stroke="#2a3344" strokeWidth={stroke} fill="none" strokeDasharray={`${dashAcc} ${c - dashAcc}`} transform={`rotate(-90 ${size/2} ${size/2})`} />
+      <circle cx={size / 2} cy={size / 2} r={r} stroke="url(#ringGrad)" strokeLinecap="round" strokeWidth={stroke} fill="none" strokeDasharray={`${dash} ${c - dash}`} transform={`rotate(-90 ${size/2} ${size/2})`} />
+      <circle cx={size / 2} cy={size / 2} r={r - stroke/2 + 2} stroke="#0c1820" strokeWidth={2} fill="none" strokeDasharray="2 10" opacity={0.4} />
+      <text x="50%" y="48%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fill="#cfe6d5" style={{ fontWeight: 700 }}>
         {Math.round(value)}%
       </text>
-      <text x="50%" y="62%" dominantBaseline="middle" textAnchor="middle" fontSize="12" fill="#9c9">
+      <text x="50%" y="60%" dominantBaseline="middle" textAnchor="middle" fontSize="13" fill="#8fd6b6">
         ACC {Math.round(acc)}%
       </text>
     </svg>

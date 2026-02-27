@@ -4,6 +4,51 @@ html, body, #__next {
   height: 100%;
 }
 * { box-sizing: border-box; }
+:root {
+  --bg-1: #0a0f12;
+  --bg-2: #09131a;
+  --grid: rgba(0, 255, 140, 0.04);
+  --card: rgba(6, 12, 14, 0.6);
+  --card-border: rgba(0, 255, 140, 0.12);
+  --text: #cfe6d5;
+  --accent: #0a5;
+  --accent-2: #0f9;
+  --danger: #f33;
+  --warn: #ff0;
+  --ok: #0f0;
+}
+body {
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 20% 10%, #0b1b15 0%, transparent 60%),
+    radial-gradient(1200px 800px at 80% 90%, #081b23 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  position: relative;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Segoe UI Symbol", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 20px),
+    repeating-linear-gradient(90deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 20px);
+  pointer-events: none;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px);
+}
+.pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.25);
+  font-size: 12px;
+}
 button {
   background: linear-gradient(180deg, #0a3, #083);
   color: #cfe6d5;

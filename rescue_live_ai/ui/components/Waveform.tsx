@@ -10,8 +10,9 @@ export function Waveform({ data }: { data: number[] }) {
     const w = canvas.width;
     const h = canvas.height;
     ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = "#0f6";
-    ctx.lineWidth = 2;
+    // glow pass
+    ctx.strokeStyle = "rgba(0,255,150,0.25)";
+    ctx.lineWidth = 6;
     ctx.beginPath();
     const n = data.length;
     if (n === 0) return;
@@ -23,6 +24,17 @@ export function Waveform({ data }: { data: number[] }) {
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
+    // main line
+    ctx.strokeStyle = "#00ff88";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const x = (i / (n - 1)) * w;
+      const y = h - ((data[i] - min) / (max - min)) * h;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
   }, [data]);
-  return <canvas ref={ref} width={500} height={150} style={{ width: "100%", height: 150, background: "#001", borderRadius: 6 }} />;
+  return <canvas ref={ref} width={500} height={150} style={{ width: "100%", height: 150, background: "linear-gradient(180deg, #070c10, #0a0f14)", borderRadius: 12 }} />;
 }

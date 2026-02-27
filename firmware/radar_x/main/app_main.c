@@ -2,6 +2,8 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include "esp_system.h"
+#include "display.h"
+#include "ui.h"
 
 typedef struct {
     float distance;
@@ -50,10 +52,25 @@ static void fusion_task(void* arg) {
 }
 
 static void ui_task(void* arg) {
+    display_init();
+    ui_create();
+    int acc = 0;
     for (;;) {
         float conf;
-        if (xQueueReceive(q_ui, &conf, portMAX_DELAY)) {
+        if (xQueueReceive(q_ui, &conf, 0)) {
+            int v = (int)(conf * 100.0f);
+            acc = (acc * 7 + v * 3) / 10;
+            ui_update_conf(v, acc);
+            ui_push_wave(conf);
+            ui_set_state_label("SCANNING");
+            ui_set_battery(85);
+            for (int i = 0; i < 32; i++) {
+                int inten = (i == 15) ? 100 : 30;
+                ui_update_heat(i, inten);
+            }
         }
+        display_tick();
+        vTaskDelay(pdMS_TO_TICKS(16));
     }
 }
 
